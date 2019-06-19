@@ -113,7 +113,6 @@ function GoogleCalendarApi () {
 			    done(err)
 			}
     }
-    	    this.test = function (done) { done('hello world!!!!!!!') }
 
 	
 } //end constructor

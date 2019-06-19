@@ -12,8 +12,6 @@ require('dotenv').config('./.env');
 
 const sessionEvents =  [];
 
-console.log(process.env.REDIRECT_URL, Object.keys(calendar))
-calendar.test(console.log)
 calendar.init(process.env.GOOGLE_CLIENT_ID, 
 	process.env.GOOGLE_CLIENT_SECRET, 
 	process.env.REDIRECT_URL + '/oauthcallback', 
@@ -22,11 +20,7 @@ calendar.init(process.env.GOOGLE_CLIENT_ID,
 app.get('/', (req, res) => {
   res.sendFile(process.cwd() + '/views/test.html')
 })
-app.get('/test', (req, res) => {
-	calendar.test((message) => {
-		res.send(message);
-	})
-})
+
 app.get('/verify', (req, res) => {
   calendar.getAuthUrl((err, url)=>{ err ? res.send('error getting auth url') : 
   	res.redirect(url) });
