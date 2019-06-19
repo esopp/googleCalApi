@@ -1,13 +1,16 @@
 GoogleCalApi 
 
-GoogleCalApi.js handles authentication with oAuth and interfacing with google calendars.
+Require GoogleCalApi.js to handle authentication with oAuth and interface with Google Calendar's API.
+The test.js and test.html files in this repo are sample uses
 
 
-#SETUP:
+SETUP:
+========
 
 In order to use calendar functions, first initialize calendar object and authenticate:
 
-##Initialize
+Initialize
+--------
 
 ```javascript
 //must be initialized with .init()
@@ -20,7 +23,8 @@ calendar.init(GOOGLE_CLIENT_ID,
 	(message) => console.log); //expected log: initialized 
 ```
 
-##Authenticate
+Authenticate
+---------
 ```javascript
 
 app.get('/verify', (req, res) => {
