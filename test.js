@@ -4,6 +4,7 @@
 //const readline = require('readline');
 const express = require('express');
 const app = express();
+const helmet = require('helmet');
 
 //must be initialized with .init()
 const CalendarManager = require('./GoogleCalApi.js');
@@ -16,6 +17,9 @@ calendar.init(process.env.GOOGLE_CLIENT_ID,
 	process.env.GOOGLE_CLIENT_SECRET, 
 	process.env.REDIRECT_URL + '/oauthcallback', 
 	(m) => console.log);
+
+// Sets "X-DNS-Prefetch-Control: off".
+app.use(helmet.dnsPrefetchControl())
 
 app.get('/', (req, res) => {
   res.sendFile(process.cwd() + '/views/test.html')
