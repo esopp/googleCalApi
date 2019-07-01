@@ -6,7 +6,7 @@ The test.js and test.html files in this repo are sample uses
 Credentials
 -------
 
-In order to use this module, you will need to set up an API key/secret using your Google account. Follow Step 1, "Turn On the Google Calendar API" at https://developers.google.com/calendar/quickstart/nodejs to recieve credentials. 
+Set up an Google Calendar API key and secret using your Google account. Follow Step 1, "Turn On the Google Calendar API" at https://developers.google.com/calendar/quickstart/nodejs to recieve credentials. 
 
 
 SETUP:
