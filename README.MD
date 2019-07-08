@@ -6,7 +6,7 @@ The test.js and test.html files in this repo are sample uses
 Credentials
 -------
 
-Set up an Google Calendar API key and secret using your Google account. Follow Step 1, "Turn On the Google Calendar API" at https://developers.google.com/calendar/quickstart/nodejs to recieve credentials. 
+Set up a Google Calendar API key and secret by following Step 1, "Turn On the Google Calendar API," at https://developers.google.com/calendar/quickstart/nodejs to recieve credentials. 
 
 
 SETUP:
@@ -22,8 +22,12 @@ Initialize
 const CalendarManager = require('./GoogleCalApi.js');
 const calendar = new CalendarManager();
 
-calendar.init(GOOGLE_CLIENT_ID, 
-	GOOGLE_CLIENT_SECRET, 
+calendar.init({
+	clientId: GOOGLE_CLIENT_ID, 
+	clientSecret: GOOGLE_CLIENT_SECRET, 
+	token: STORED_USER_SPECIFIC_REFRESH_TOKEN [optional if clientId and clientSecret are supplied],
+	storeToken: FUNCTION_TO_STORE_REFRESH_TOKEN [optional]
+	},
 	YOUR_APP_URL + '/oauthcallback', 
 	(message) => console.log); //expected log: initialized 
 ```
