@@ -1,6 +1,6 @@
 "use strict";
 //Google Calendar API module 
-//const fs = require('fs');
+const fs = require('fs');
 //const readline = require('readline');
 const express = require('express');
 const app = express();
@@ -12,11 +12,42 @@ const calendar = new CalendarManager();
 require('dotenv').config('./.env');
 
 const sessionEvents =  [];
+const TOKEN_PATH = 'token.json'
 
-calendar.init(process.env.GOOGLE_CLIENT_ID, 
-	process.env.GOOGLE_CLIENT_SECRET, 
+function storeToken (token) {
+	fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+	  if (err) return console.error(err)
+	  console.log('token stored to:', TOKEN_PATH);
+	})
+}
+
+fs.readFile(TOKEN_PATH, (err, content) => {
+  if (err) calendar.init({
+	clientId: process.env.GOOGLE_CLIENT_ID, 
+	clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+	storeToken: storeToken
+    },
 	process.env.REDIRECT_URL + '/oauthcallback', 
 	(m) => console.log);
+  else calendar.init({
+	clientId: process.env.GOOGLE_CLIENT_ID, 
+	clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+	token : JSON.parse(content), //leave undefined if not using
+	storeToken : storeToken
+    },
+	process.env.REDIRECT_URL + '/oauthcallback', 
+	(m) => console.log);
+})
+
+/**calendar.init({
+	clientId: process.env.GOOGLE_CLIENT_ID, 
+	clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+	token : null, //leave undefined if not using
+	storeToken : null
+    },
+	process.env.REDIRECT_URL + '/oauthcallback', 
+	(m) => console.log);
+	**/
 
 // Sets "X-DNS-Prefetch-Control: off".
 app.use(helmet.dnsPrefetchControl())

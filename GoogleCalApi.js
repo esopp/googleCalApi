@@ -9,10 +9,10 @@ function GoogleCalendarApi () {
     this.token = null;
     this.calendar = null;
 
-    this.init = function (clientId, clientSecret, redirect_url, done) {
+    this.init = function (credentials, redirect_url, done) {
 	    this.oauth2Client = new google.auth.OAuth2(
-			clientId,
-			clientSecret, 
+			credentials.clientId,
+			credentials.clientSecret, 
 			redirect_url
 		);
 		this.scopes = ['https://www.googleapis.com/auth/calendar'];
@@ -20,10 +20,21 @@ function GoogleCalendarApi () {
 			  access_type: 'offline',
 			  scope: this.scopes
 		})
+		if (credentials.token) {
+			try {
+				this.oauth2Client.setCredentials({
+				  refresh_token: credentials.token
+			    });
+			} catch (err) {
+				return done(err)
+			}
+			return done('authenticated')
+		}
 		//listeners
 		this.oauth2Client.on('tokens', (tokens) => {
 			console.log('token event:', this.token)
 		  if (tokens.refresh_token) {
+		  	if (credentials.storeToken) credentials.storeToken(tokens.refresh_token);
 		    this.token = tokens.refresh_token;
 		    console.log('refresh: ' + tokens.refresh_token)
 		  }
