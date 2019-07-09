@@ -3,18 +3,28 @@ const {google} = require('googleapis');
 
 
 function GoogleCalendarApi () {
-	this.initialized = false;
-	this.oauth2Client = null;
+    this.initialized = false;
+    this.oauth2Client = null;
     this.url = null;
     this.token = null;
     this.calendar = null;
 
+    /**
+    * Pass credentials to the GoogleCalendarApi module
+    * @param {object} credentials Object with the properties:
+    * 	{string} clientId, {string} clientSecret, 
+    *   {string} token (optional), and {function} storeToken (optional)
+    * @param {string} redirect_url Full callback url for authentication 
+    * @param {function} done Callback function, handles either the message 
+    * 	"authenticated" (if refresh token was supplied), "initialized" (if 
+    *   user still needs to login through oauth to get a token), or an error message.
+    **/
     this.init = function (credentials, redirect_url, done) {
-	    this.oauth2Client = new google.auth.OAuth2(
-			credentials.clientId,
-			credentials.clientSecret, 
-			redirect_url
-		);
+	 this.oauth2Client = new google.auth.OAuth2(
+		credentials.clientId,
+		credentials.clientSecret, 
+		redirect_url
+	 );
 		this.scopes = ['https://www.googleapis.com/auth/calendar'];
 		this.url = this.oauth2Client.generateAuthUrl({
 			  access_type: 'offline',
